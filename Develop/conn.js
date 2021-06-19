@@ -22,7 +22,7 @@ const start = () => {
     .prompt([
       {
         name: "task",
-        message: "What do you want to do?",
+        message: "What would you like to do?",
         type: "list",
         choices: [
           "Add Department",
@@ -42,6 +42,7 @@ const start = () => {
           addDepartment();
           break;
         case "Add Role":
+          addRole();
           break;
         case "Add Employee":
           break;
@@ -67,34 +68,94 @@ const addDepartment = () => {
     .prompt({
       name: "name",
       type: "input",
-      message: "You want to add a Department",
+      message: "What's the name of the Department you want to add?",
     })
     .then((answer) => {
       const db = "INSERT INTO department SET ?";
       connection.query(db, answer, (err, res) => {
         if (err) throw err;
         console.log(res);
-        console.log("You add a new Department");
+        console.log("You added a new Department");
+        console.log(
+          "---------------------------------------------------------------------"
+        );
+        start();
+      });
+    });
+};
+
+const addRole = () => {
+  inquirer
+    .prompt([
+      {
+        name: "title",
+        type: "input",
+        message: "What's the name of the Role you want to add?",
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the salary for this Role?",
+      },
+      {
+        name: "department_id",
+        type: "input",
+        message: "What is the Department Id that goes with this Role?",
+      },
+    ])
+    .then((answer) => {
+      const db = "INSERT INTO role SET ?";
+      connection.query(db, answer, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You added a new Role");
+        console.log(
+          "---------------------------------------------------------------------"
+        );
         start();
       });
     });
 };
 
 const viewDepartment = () => {
-  const db = "SELECT * FROM department;";
+  const db = "SELECT * FROM department";
   connection.query(db, (err, res) => {
     if (err) throw err;
     res.forEach(({ id, name }) => {
+      console.log(
+        "---------------------------------------------------------------------"
+      );
       console.log(`Id: ${id} || Name: ${name}`);
-      console.log("View Department");
+      console.log(
+        "---------------------------------------------------------------------"
+      );
+      // console.log("View Department");
     });
     // console.table(res);
     console.log("We are in viewDepartment function!");
+    console.log(
+      "---------------------------------------------------------------------"
+    );
     start();
   });
 };
 
 const viewRole = () => {
-  console.log(" We go the ViewRole function");
-  start();
+  const db = "SELECT * FROM role";
+  connection.query(db, (err, res) => {
+    if (err) throw err;
+    res.forEach(({ title, salary, department_id }) => {
+      console.log(
+        "---------------------------------------------------------------------"
+      );
+      console.log(
+        `Title: ${title} || Salary: $${salary} || Department ID: ${department_id}`
+      );
+    });
+    console.log(" We are in the ViewRole function");
+    console.log(
+      "---------------------------------------------------------------------"
+    );
+    start();
+  });
 };
