@@ -45,6 +45,7 @@ const start = () => {
           addRole();
           break;
         case "Add Employee":
+          addEmployee();
           break;
         case "View Departments":
           viewDepartment();
@@ -53,8 +54,10 @@ const start = () => {
           viewRole();
           break;
         case "View Employees":
+          viewEmployee();
           break;
         case "Update Employee Role":
+          updateEmployeeRole();
           break;
         case "Exit":
           connection.end();
@@ -117,7 +120,48 @@ const addRole = () => {
     });
 };
 
+const addEmployee = () => {
+  inquirer
+    .prompt([
+      {
+        name: "first_name",
+        type: "input",
+        message: "What's the first name of the Employee you want to add?",
+      },
+      {
+        name: "last_name",
+        type: "input",
+        message: "What's the last name of the Employee you want to add?",
+      },
+      {
+        name: "role_id",
+        type: "input",
+        message: "What's the Role Id that goes with this Employee?",
+      },
+      {
+        name: "manager_id",
+        type: "input",
+        message: "What's the Manager Id that goes with this Employee?",
+      },
+    ])
+    .then((answer) => {
+      const db = "INSERT INTO employee SET ?";
+      connection.query(db, answer, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You added a new Employee");
+        console.log(
+          "---------------------------------------------------------------------"
+        );
+        start();
+      });
+    });
+};
+
 const viewDepartment = () => {
+  console.log(
+    "--------------------------Departments Table--------------------------"
+  );
   const db = "SELECT * FROM department";
   connection.query(db, (err, res) => {
     if (err) throw err;
@@ -125,7 +169,7 @@ const viewDepartment = () => {
       console.log(
         "---------------------------------------------------------------------"
       );
-      console.log(`Id: ${id} || Name: ${name}`);
+      console.log(`ID: ${id} || Name: ${name}`);
       console.log(
         "---------------------------------------------------------------------"
       );
@@ -141,15 +185,21 @@ const viewDepartment = () => {
 };
 
 const viewRole = () => {
+  console.log(
+    "-----------------------------Roles Table-----------------------------"
+  );
   const db = "SELECT * FROM role";
   connection.query(db, (err, res) => {
     if (err) throw err;
-    res.forEach(({ title, salary, department_id }) => {
+    res.forEach(({ id, title, salary, department_id }) => {
       console.log(
         "---------------------------------------------------------------------"
       );
       console.log(
-        `Title: ${title} || Salary: $${salary} || Department ID: ${department_id}`
+        `ID: ${id} || Title: ${title} || Salary: $${salary} || Department ID: ${department_id}`
+      );
+      console.log(
+        "---------------------------------------------------------------------"
       );
     });
     console.log(" We are in the ViewRole function");
@@ -159,3 +209,34 @@ const viewRole = () => {
     start();
   });
 };
+
+const viewEmployee = () => {
+  console.log(
+    "---------------------------Employees Table---------------------------"
+  );
+  const db = "SELECT * FROM employee";
+  connection.query(db, (err, res) => {
+    if (err) throw err;
+    res.forEach(({ id, first_name, last_name, role_id, manager_id }) => {
+      console.log(
+        "---------------------------------------------------------------------"
+      );
+      console.log(
+        `ID: ${id} || First Name: ${first_name} || Last Name: ${last_name} || Role ID: ${role_id} || Manager ID: ${manager_id}`
+      );
+      console.log(
+        "---------------------------------------------------------------------"
+      );
+    });
+    console.log(" We are in the ViewEmployee function");
+    console.log(
+      "---------------------------------------------------------------------"
+    );
+    start();
+  });
+};
+
+const updateEmployeeRole = () => {
+  console.log("We are in the Update Employee function");
+  start();
+}
