@@ -29,31 +29,72 @@ const start = () => {
           "Add Role",
           "Add Employee",
           "View Departments",
-          "View roles",
+          "View Roles",
           "View Employees",
           "Update Employee Role",
+          "Exit",
         ],
       },
     ])
     .then((answer) => {
       switch (answer.task) {
-        case "Add a Department":
+        case "Add Department":
+          addDepartment();
           break;
-        case "Add a Role":
+        case "Add Role":
           break;
-        case "Add an Employee":
+        case "Add Employee":
           break;
-        case "View all Departments":
+        case "View Departments":
+          viewDepartment();
           break;
-        case "View all Roles":
+        case "View Roles":
+          viewRole();
           break;
-        case "View all Employees":
+        case "View Employees":
           break;
         case "Update Employee Role":
           break;
-        default:
-          console.log(`Invalid action: ${answer.task}`);
+        case "Exit":
+          connection.end();
           break;
       }
     });
+};
+
+const addDepartment = () => {
+  inquirer
+    .prompt({
+      name: "name",
+      type: "input",
+      message: "You want to add a Department",
+    })
+    .then((answer) => {
+      const db = "INSERT INTO department SET ?";
+      connection.query(db, answer, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You add a new Department");
+        start();
+      });
+    });
+};
+
+const viewDepartment = () => {
+  const db = "SELECT * FROM department;";
+  connection.query(db, (err, res) => {
+    if (err) throw err;
+    res.forEach(({ id, name }) => {
+      console.log(`Id: ${id} || Name: ${name}`);
+      console.log("View Department");
+    });
+    // console.table(res);
+    console.log("We are in viewDepartment function!");
+    start();
+  });
+};
+
+const viewRole = () => {
+  console.log(" We go the ViewRole function");
+  start();
 };
