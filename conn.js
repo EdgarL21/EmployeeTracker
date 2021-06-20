@@ -324,39 +324,63 @@ const updateEmployeeRole = () => {
   inquirer
     .prompt([
       {
+        name: "title",
+        type: "input",
+        message: "Do you want to update the Title?",
+      },
+      // {
+      //   name: "salary",
+      //   type: "input",
+      //   message: "Do you want to update the Salary",
+      // },
+      {
         name: "id",
         type: "input",
-        message: "What is the id of the Employee you want to update?",
+        message: "What is the id of the Role you want to update?",
       },
     ])
     .then((answer) => {
       // connection.query('SELECT * FROM role JOIN employee ON role.id = employee.role_id');
-      connection.query("INSERT INTO role SET ? WHERE ?");
+      connection.query("INSERT INTO role SET title = ? WHERE id = ?", [answer.title, answer.id], (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You updated the Role");
+        start();
+      });
     });
 
-  inquirer
-    .prompt([
-      {
-        name: "title",
-        type: "input",
-        message: "Do you want to update the Title",
-      },
-      {
-        name: "salary",
-        type: "input",
-        message: "Do you want to update the Salary",
-      },
-      {
-        name: "department_id",
-        type: "input",
-        message: "What is the Department Id that goes with this Role?",
-      },
-    ])
-    .then((answer) => {
-      const db = "UPDATE role SET salary = 70000 WHERE role.id = 3";
-      connection.query(db, (err, res) => {});
-      // const db = "UPDATE role SET ? WHERE ?";
-    });
+
+
+
+
+
+
+
+
+
+  // inquirer
+  //   .prompt([
+  //     {
+  //       name: "title",
+  //       type: "input",
+  //       message: "Do you want to update the Title",
+  //     },
+  //     {
+  //       name: "salary",
+  //       type: "input",
+  //       message: "Do you want to update the Salary",
+  //     },
+  //     {
+  //       name: "id",
+  //       type: "input",
+  //       message: "What is the ID that goes with this Role that you're updating?",
+  //     },
+  //   ])
+  //   .then((answer) => {
+  //     const db = "UPDATE role SET salary = 70000 WHERE role.id = 3";
+  //     connection.query(db, (err, res) => {});
+  //     // const db = "UPDATE role SET ? WHERE ?";
+  //   });
 
   // connection.query(db);
 
