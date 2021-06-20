@@ -25,3 +25,37 @@ CREATE TABLE employee (
     manager_id INT,
     PRIMARY KEY (id)
 );
+
+INSERT INTO department (name)
+VALUES ("Lead");
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Project Manager", 90000, 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Alex", "Locke", 1, null);
+
+------------------------------------------------------------------------
+
+INSERT INTO department (name)
+VALUES ("Dev Team");
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Senior Dev", 100000, 2);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Monica", "Smith", 2, 1);
+
+
+-- INSERT INTO department (name)
+-- VALUES ("Dev Team");
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Junior Dev", 70000, 2);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Mike", "Davis", 3, 1);
+
+UPDATE role
+SET salary = 75000
+WHERE role.id = 3;

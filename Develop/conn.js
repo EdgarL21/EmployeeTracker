@@ -32,6 +32,9 @@ const start = () => {
           "View Roles",
           "View Employees",
           "Update Employee Role",
+          "Delete Department",
+          "Delete Role",
+          "Delete Employee",
           "Exit",
         ],
       },
@@ -58,6 +61,15 @@ const start = () => {
           break;
         case "Update Employee Role":
           updateEmployeeRole();
+          break;
+        case "Delete Department":
+          deleteDepartment();
+          break;
+        case "Delete Role":
+          deleteRole();
+          break;
+        case "Delete Employee":
+          deleteEmployee();
           break;
         case "Exit":
           connection.end();
@@ -196,7 +208,7 @@ const viewRole = () => {
         "---------------------------------------------------------------------"
       );
       console.log(
-        `ID: ${id} || Title: ${title} || Salary: $${salary} || Department ID: ${department_id}`
+        `ID: ${id} || Title: ${title} || Salary: $${salary}.00 || Department ID: ${department_id}`
       );
       console.log(
         "---------------------------------------------------------------------"
@@ -236,7 +248,118 @@ const viewEmployee = () => {
   });
 };
 
+const deleteDepartment = () => {
+  inquirer
+    .prompt([
+      {
+        name: "id",
+        type: "input",
+        message: "What's the id of the Department you want to delete?",
+      },
+    ])
+    .then((answer) => {
+      const db = "DELETE FROM department WHERE ?";
+      connection.query(db, answer, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You deleted a Department");
+        console.log(
+          "---------------------------------------------------------------------"
+        );
+        start();
+      });
+    });
+  console.log("We are in the Delete Department function");
+};
+
+const deleteRole = () => {
+  inquirer
+    .prompt([
+      {
+        name: "id",
+        type: "input",
+        message: "What's the id of the Role you want to delete?",
+      },
+    ])
+    .then((answer) => {
+      const db = "DELETE FROM role WHERE ?";
+      connection.query(db, answer, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You deleted a Role");
+        console.log(
+          "---------------------------------------------------------------------"
+        );
+        start();
+      });
+    });
+  console.log("We are in the Delete Role function");
+};
+
+const deleteEmployee = () => {
+  inquirer
+    .prompt([
+      {
+        name: "id",
+        type: "input",
+        message: "What's the id of the Employee you want to delete?",
+      },
+    ])
+    .then((answer) => {
+      const db = "DELETE FROM employee WHERE ?";
+      connection.query(db, answer, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.log("You deleted a Employee");
+        console.log(
+          "---------------------------------------------------------------------"
+        );
+        start();
+      });
+    });
+  console.log("We are in the Delete Employee function");
+};
+
 const updateEmployeeRole = () => {
-  console.log("We are in the Update Employee function");
-  start();
-}
+  inquirer
+    .prompt([
+      {
+        name: "id",
+        type: "input",
+        message: "What is the id of the Employee you want to update?",
+      },
+    ])
+    .then((answer) => {
+      // connection.query('SELECT * FROM role JOIN employee ON role.id = employee.role_id');
+      connection.query("INSERT INTO role SET ? WHERE ?");
+    });
+
+  inquirer
+    .prompt([
+      {
+        name: "title",
+        type: "input",
+        message: "Do you want to update the Title",
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "Do you want to update the Salary",
+      },
+      {
+        name: "department_id",
+        type: "input",
+        message: "What is the Department Id that goes with this Role?",
+      },
+    ])
+    .then((answer) => {
+      const db = "UPDATE role SET salary = 70000 WHERE role.id = 3";
+      connection.query(db, (err, res) => {});
+      // const db = "UPDATE role SET ? WHERE ?";
+    });
+
+  // connection.query(db);
+
+  // console.log("We are in the Update Employee function");
+  // start();
+};
