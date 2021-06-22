@@ -269,7 +269,7 @@ const deleteDepartment = () => {
         start();
       });
     });
-  console.log("We are in the Delete Department function");
+  // console.log("We are in the Delete Department function");
 };
 
 const deleteRole = () => {
@@ -293,7 +293,7 @@ const deleteRole = () => {
         start();
       });
     });
-  console.log("We are in the Delete Role function");
+    // console.log("We are in the Delete Role function");
 };
 
 const deleteEmployee = () => {
@@ -317,7 +317,7 @@ const deleteEmployee = () => {
         start();
       });
     });
-  console.log("We are in the Delete Employee function");
+    // console.log("We are in the Delete Employee function");
 };
 
 const updateEmployeeRole = () => {
